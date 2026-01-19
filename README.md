@@ -147,3 +147,7 @@ Gem
 - web-push（ブラウザ通知）
 - RSpec（テスト）
 - Rubocop（Lintチェック）
+
+## 画面遷移図
+
+[画面遷移図リンク](https://www.figma.com/design/EV47bcJCmgyZabzmFx0oWd/%E3%80%90%E5%8D%92%E5%88%B6%E3%80%91%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3?node-id=0-1&p=f&t=Sao6zWqmWG3WwLw0-0)
