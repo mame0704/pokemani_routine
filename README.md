@@ -151,3 +151,85 @@ Gem
 ## 画面遷移図
 
 [画面遷移図リンク](https://www.figma.com/design/EV47bcJCmgyZabzmFx0oWd/%E3%80%90%E5%8D%92%E5%88%B6%E3%80%91%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3?node-id=0-1&p=f&t=Sao6zWqmWG3WwLw0-0)
+
+## ER図
+
+```mermaid
+erDiagram
+    users ||--o{ users : "親は複数の子ユーザーを持つ(自己リレーション)"
+    users ||--o{ routines : "ユーザーは複数のルーティンを持っている(1対多)"
+    users ||--o{ routine_executions : "ユーザーは複数のルーティンを実行できる(1対多)"
+    routines ||--o{ routine_executions : "１ルーティンに対して複数の実行ができる(1対多)"
+    routine_executions ||--o{ routine_approvals : "1つのルーティン実行に対して複数の承認レコードを持てる(1対多)"
+    users ||--o{ routine_approvals : "親ユーザーは複数のルーティンを承認できる(1対多)"
+    users ||--o{ point_transactions : "親ユーザーは複数のお小遣いを持っている(1対多)"
+    users ||--o{ point_rates : "親ユーザーは複数のレート持っている(1対多)"
+    users ||--o{ notifications : "ユーザーは複数の通知を持っている(1対多)"
+
+    users {
+        bigint id PK
+        string name
+        string email
+        string encrypted_password
+        string role
+        bigint parent_id FK
+        datetime created_at
+        datetime updated_at
+    }
+
+    routines {
+        bigint id PK
+        bigint user_id FK
+        string title
+        integer point
+        boolean active
+        datetime created_at
+        datetime updated_at
+    }
+
+    routine_executions {
+        bigint id PK
+        bigint routine_id FK
+        bigint user_id FK
+        date executed_on
+        string status
+        datetime created_at
+        datetime updated_at
+    }
+
+    routine_approvals {
+        bigint id PK
+        bigint routine_execution_id FK
+        bigint parent_id FK
+        boolean approved
+        text comment
+        datetime created_at
+    }
+
+    point_transactions {
+        bigint id PK
+        bigint user_id FK
+        integer total_point
+        datetime created_at
+        datetime updated_at
+    }
+
+    point_rates {
+        bigint id PK
+        bigint user_id FK
+        integer min_point
+        integer max_point
+        integer amount
+        datetime created_at
+        datetime updated_at
+    }
+
+    notifications {
+        bigint id PK
+        bigint user_id FK
+        string type
+        string message
+        datetime read_at
+        datetime created_at
+    }
+```
