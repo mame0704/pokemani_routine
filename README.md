@@ -154,6 +154,7 @@ Gem
 
 ## ER図
 
+```mermaid
 erDiagram
     users ||--o{ users : "親は複数の子ユーザーを持つ(自己リレーション)"
     users ||--o{ routines : "ユーザーは複数のルーティンを持っている(1対多)"
@@ -231,3 +232,4 @@ erDiagram
         datetime read_at
         datetime created_at
     }
+```
