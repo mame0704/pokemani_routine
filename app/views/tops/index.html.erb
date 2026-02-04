@@ -12,8 +12,9 @@
 </section>
 
 <div class="login-buttons-bottom">
-  <button type="button">親ログイン</button>
-  <button type="button">子ログイン</button>
+  <%= link_to "親ログイン", user_session_path, class: "btn" %>
+  <%= link_to "子ログイン", user_session_path, class: "btn" %>
+  <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn" %>
 </div>
 
 <div class="share-buttons">
