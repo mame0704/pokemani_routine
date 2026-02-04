@@ -157,33 +157,36 @@ Gem
 
 ```mermaid
 erDiagram
-    users ||--o{ users : "親は複数の子ユーザーを持つ(自己リレーション)"
-    users ||--o{ routines : "ユーザーは複数のルーティンを持っている(1対多)"
-    users ||--o{ routine_executions : "ユーザーは複数のルーティンを実行できる(1対多)"
-    routines ||--o{ routine_executions : "１ルーティンに対して複数の実行ができる(1対多)"
-    routine_executions ||--o{ routine_approvals : "1つのルーティン実行に対して複数の承認レコードを持てる(1対多)"
-    users ||--o{ routine_approvals : "親ユーザーは複数のルーティンを承認できる(1対多)"
-    users ||--o{ point_transactions : "親ユーザーは複数のお小遣いを持っている(1対多)"
-    users ||--o{ point_rates : "親ユーザーは複数のレート持っている(1対多)"
-    users ||--o{ notifications : "ユーザーは複数の通知を持っている(1対多)"
+    users ||--o{ children : "親は複数の子供を持つ"
+    children ||--o{ routines : "子供は複数のルーティンを持つ"
+    routines ||--o{ routine_executions : "1ルーティンに複数の実行"
+    routine_executions ||--o{ routine_approvals : "1実行に複数承認"
+    users ||--o{ routine_approvals : "親は複数の承認を持つ"
+
 
     users {
         bigint id PK
         string name
         string email
         string encrypted_password
-        string role
-        bigint parent_id FK
+        datetime created_at
+        datetime updated_at
+    }
+
+    children {
+        bigint id PK
+        bigint user_id FK
+        string name
+        string pair_code
         datetime created_at
         datetime updated_at
     }
 
     routines {
         bigint id PK
-        bigint user_id FK
+        bigint child_id FK
         string title
-        integer point
-        boolean active
+　　　　boolean active
         datetime created_at
         datetime updated_at
     }
@@ -191,9 +194,8 @@ erDiagram
     routine_executions {
         bigint id PK
         bigint routine_id FK
-        bigint user_id FK
         date executed_on
-        string status
+        integer status
         datetime created_at
         datetime updated_at
     }
@@ -201,36 +203,8 @@ erDiagram
     routine_approvals {
         bigint id PK
         bigint routine_execution_id FK
-        bigint parent_id FK
-        boolean approved
-        text comment
-        datetime created_at
-    }
-
-    point_transactions {
-        bigint id PK
         bigint user_id FK
-        integer total_point
-        datetime created_at
-        datetime updated_at
-    }
-
-    point_rates {
-        bigint id PK
-        bigint user_id FK
-        integer min_point
-        integer max_point
-        integer amount
-        datetime created_at
-        datetime updated_at
-    }
-
-    notifications {
-        bigint id PK
-        bigint user_id FK
-        string type
-        string message
-        datetime read_at
+        integer decision
         datetime created_at
     }
 ```
