@@ -1,30 +1,89 @@
-<div class="login-buttons-top">
-  <%= link_to "親ログイン", user_session_path, class: "btn" %>
-  <%= link_to "子ログイン", user_session_path, class: "btn" %>
-  <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn" %>
+<div class="min-h-screen flex flex-col items-center justify-center bg-base-200 px-6">
+  <h1 class="text-4xl font-bold text-center text-base-content mb-12">
+    ポケマニルーティン
+  </h1>
+
+  <div class="flex flex-col gap-6 w-full max-w-xs">
+    <%= link_to "親ログイン", user_session_path,
+        class: "btn btn-soft btn-secondary rounded-2xl px-8 w-full" %>
+
+    <%= link_to "こどもログイン", user_session_path,
+        class: "btn btn-soft btn-warning rounded-2xl px-8 w-full" %>
+      <%= link_to "ログアウト",
+        destroy_user_session_path,
+        data: { turbo_method: :delete },
+        class: "btn btn-outline btn-neutral rounded-2xl px-8 w-full" %>
+  </div>
 </div>
 
-<section class="how-to-use">
-  <h2>使い方ガイド</h2>
-  <p>
-    ここにアプリの簡単な説明や使い方の文章を記載します。
-  </p>
-</section>
-
-<div class="login-buttons-bottom">
-  <%= link_to "親ログイン", user_session_path, class: "btn" %>
-  <%= link_to "子ログイン", user_session_path, class: "btn" %>
-  <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn" %>
+  <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 mb-25">
+    <a href="#features" class="btn btn-circle btn-primary animate-bounce">
+      <span class="material-symbols-outlined text-2xl text-secondary-content">
+      </span>
+    </a>
+  </div>
 </div>
 
-<div class="share-buttons">
-  <button type="button">Xで共有</button>
-</div>
+<div class="bg-base-200 px-6">
 
-<footer class="footer-links">
-  <ul>
-    <li><a href="#">利用規約</a></li>
-    <li><a href="#">プライバシーポリシー</a></li>
-    <li><a href="#">お問い合わせ</a></li>
-  </ul>
-</footer>
+  <section id="features" class="max-w-3xl mx-auto mb-20 p-10 bg-primary-content rounded-3xl shadow">
+    <h2 class="text-2xl font-bold mb-6 text-neutral text-center">
+      つかいかたのながれ
+    </h2>
+
+    <div class="space-y-4">
+      <div class="chat chat-start">
+        <div class="chat-header">親</div>
+        <div class="chat-bubble chat-bubble-secondary">
+          ルーティンさくせい📝
+        </div>
+      </div>
+
+      <div class="chat chat-end">
+        <div class="chat-header">こども</div>
+        <div class="chat-bubble chat-bubble-warning">
+          ルーティンじっこう📝
+        </div>
+      </div>
+
+      <div class="chat chat-start">
+        <div class="chat-header">親</div>
+        <div class="chat-bubble chat-bubble-secondary">
+          ルーティンチェック✅
+        </div>
+      </div>
+
+      <div class="chat chat-end">
+        <div class="chat-header">こども</div>
+        <div class="chat-bubble chat-bubble-warning">
+          おこづかいゲット💰
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="flex justify-center gap-6 mb-16">
+    <%= link_to "親ログイン", user_session_path,
+        class: "btn btn-soft btn-secondary rounded-2xl px-8" %>
+
+    <%= link_to "こどもログイン", user_session_path,
+        class: "btn btn-soft btn-warning rounded-2xl px-8" %>
+  </div>
+
+  <div class="text-center mb-20">
+    <button class="btn bg-black text-white border-black rounded-2xl px-6">
+      <svg aria-label="X logo" width="16" height="12" viewBox="0 0 300 271" xmlns="http://www.w3.org/2000/svg">
+        <path fill="currentColor" d="m236 0h46l-101 115 118 156h-92.6l-72.5-94.8-83 94.8h-46l107-123-113-148h94.9l65.5 86.6zm-16.1 244h25.5l-165-218h-27.4z"/>
+      </svg>
+      共有する
+    </button>
+  </div>
+
+  <footer class="py-8 border-t">
+    <ul class="flex justify-center gap-8 text-sm text-neutral">
+      <li><a href="#" class="hover:underline">利用規約</a></li>
+      <li><a href="#" class="hover:underline">プライバシーポリシー</a></li>
+      <li><a href="#" class="hover:underline">お問い合わせ</a></li>
+    </ul>
+  </footer>
+</div>
