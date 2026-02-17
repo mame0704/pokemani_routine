@@ -1,0 +1,49 @@
+<div class="min-h-screen flex flex-col items-center justify-center bg-base-200 px-6 py-12">
+
+  <h1 class="text-4xl font-bold text-center text-base-content mb-8">
+    新しいルーティンを作成
+  </h1>
+
+  <%= form_with(model: [@child, @routine], local: true, class: "w-full max-w-lg space-y-6") do |f| %>
+
+    <div class="form-control w-full">
+      <%= f.label :title, "ルーティンタイトル", class: "label" %>
+      <%= f.text_field :title, class: "input input-bordered w-full", placeholder: "例: 朝の習慣" %>
+    </div>
+
+    <div class="form-control w-full" id="routine-items">
+      <%= f.label :items, "ルーティン項目", class: "label" %>
+
+      <div class="flex gap-2 mb-2">
+        <%= text_field_tag "routine[items][]", nil, class: "input input-bordered w-full", placeholder: "例: 歯磨き" %>
+        <button type="button" id="add-item" class="btn btn-outline">+</button>
+      </div>
+    </div>
+
+    <div class="form-control w-full">
+      <%= f.submit "作成", class: "btn btn-primary w-full" %>
+    </div>
+
+  <% end %>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const addButton = document.getElementById("add-item");
+  const container = document.getElementById("routine-items");
+
+  addButton.addEventListener("click", () => {
+    const newField = document.createElement("div");
+    newField.classList.add("flex", "gap-2", "mb-2");
+    newField.innerHTML = `
+      <input type="text" name="routine[items][]" class="input input-bordered w-full" placeholder="例: 運動">
+      <button type="button" class="btn btn-outline remove-item">-</button>
+    `;
+    container.appendChild(newField);
+
+    newField.querySelector(".remove-item").addEventListener("click", (e) => {
+      e.target.parentElement.remove();
+    });
+  });
+});
+</script>
