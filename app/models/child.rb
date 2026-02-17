@@ -5,7 +5,7 @@ class Child < ApplicationRecord
   validates :name, presence: true
   validates :pair_code, uniqueness: true, allow_nil: true
 
-#有効なルーティンだけ取得する
+  # 有効なルーティンだけ取得する
   def active_routines
     routines.where(active: true)
   end

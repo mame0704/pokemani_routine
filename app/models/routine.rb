@@ -6,7 +6,7 @@ class Routine < ApplicationRecord
   validates :title, presence: true
   attribute :active, :boolean, default: true
 
-# ルーティンのactive状態をDB上で反転させるスイッチメソッド
+  # ルーティンのactive状態をDB上で反転させるスイッチメソッド
   def toggle!
     update!(active: !active)
   end
