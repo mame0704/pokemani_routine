@@ -5,4 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :children, dependent: :destroy
+
+  # DBに子がいるかチェックし、いる場合は親とみなす
+  def parent?
+    children.exists?
+  end
 end
