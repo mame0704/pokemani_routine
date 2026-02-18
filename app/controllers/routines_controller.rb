@@ -1,4 +1,5 @@
 class RoutinesController < ApplicationController
+  layout "parent"
   before_action :set_child
 
   def new
