@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_16_101907) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_18_080640) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,16 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_16_101907) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_children_on_user_id"
+  end
+
+  create_table "routine_executions", force: :cascade do |t|
+    t.bigint "routine_id", null: false
+    t.date "executed_on", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["routine_id", "executed_on"], name: "index_routine_executions_on_routine_id_and_executed_on", unique: true
+    t.index ["routine_id"], name: "index_routine_executions_on_routine_id"
   end
 
   create_table "routines", force: :cascade do |t|
@@ -46,5 +56,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_16_101907) do
   end
 
   add_foreign_key "children", "users"
+  add_foreign_key "routine_executions", "routines"
   add_foreign_key "routines", "children"
 end
