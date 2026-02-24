@@ -1,0 +1,50 @@
+<h1>ルーティン承認（今日）</h1>
+
+<% if @routine_executions.empty? %>
+  <p>今日はまだ実行がありません。</p>
+<% end %>
+
+<% @routine_executions.each do |execution| %>
+  <div style="border: 1px solid #ddd; padding: 12px; margin: 12px 0;">
+    <p>
+      <strong>子ども：</strong>
+      <%= execution.routine.child.name %>
+    </p>
+
+    <p>
+      <strong>ルーティン：</strong>
+      <%= execution.routine.title %>
+    </p>
+
+    <p>
+      <strong>実行日：</strong>
+      <%= execution.executed_on %>
+    </p>
+
+    <%# ルーティン項目の表示（itemsが配列/JSON等で入っている想定） %>
+    <% if execution.routine.items.present? %>
+      <p><strong>項目：</strong></p>
+      <ul>
+        <% Array(execution.routine.items).each do |item| %>
+          <li><%= item %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <div style="display: flex; gap: 8px; margin-top: 12px;">
+      <%# 承認 %>
+      <%= form_with url: parent_role_routine_execution_routine_approvals_path(execution),
+                    method: :post do |f| %>
+        <%= f.hidden_field :decision, value: "approved" %>
+        <%= f.submit "承認する" %>
+      <% end %>
+
+      <%# 差し戻し %>
+      <%= form_with url: parent_role_routine_execution_routine_approvals_path(execution),
+                    method: :post do |f| %>
+        <%= f.hidden_field :decision, value: "rejected" %>
+        <%= f.submit "差し戻す" %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

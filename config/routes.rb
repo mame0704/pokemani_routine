@@ -3,8 +3,15 @@ Rails.application.routes.draw do
   get "tops/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  resources :children do
-    resources :routines, only: [ :index, :new, :create, :edit, :update ]
+  namespace :parent_role do
+    resources :children do
+      resources :routines, only: [ :index, :new, :create, :edit, :update ]
+    end
+
+    root "routine_approvals#new"
+    resources :routine_executions, only: [] do
+      resources :routine_approvals, only: [:create]
+    end
   end
 
   namespace :child_role do

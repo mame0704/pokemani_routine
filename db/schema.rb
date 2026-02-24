@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_18_080640) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_21_234823) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,16 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_18_080640) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_children_on_user_id"
+  end
+
+  create_table "routine_approvals", force: :cascade do |t|
+    t.bigint "routine_execution_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "decision", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["routine_execution_id"], name: "index_routine_approvals_on_routine_execution_id", unique: true
+    t.index ["user_id"], name: "index_routine_approvals_on_user_id"
   end
 
   create_table "routine_executions", force: :cascade do |t|
@@ -56,6 +66,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_18_080640) do
   end
 
   add_foreign_key "children", "users"
+  add_foreign_key "routine_approvals", "routine_executions"
+  add_foreign_key "routine_approvals", "users"
   add_foreign_key "routine_executions", "routines"
   add_foreign_key "routines", "children"
 end
