@@ -1,5 +1,6 @@
 module ParentRole
   class RoutineApprovalsController < ApplicationController
+    layout "parent"
     before_action :authenticate_user!
     before_action :set_routine_execution, only: [:create]
 
