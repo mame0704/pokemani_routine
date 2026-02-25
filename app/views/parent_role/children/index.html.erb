@@ -1,0 +1,71 @@
+<div class="min-h-screen bg-base-200 px-6 py-8">
+  <div class="max-w-xl mx-auto">
+
+    <h1 class="text-2xl font-bold mb-6">ペアID管理</h1>
+
+    <% if notice.present? %>
+      <div class="mb-4 p-3 rounded bg-green-100 text-green-800 text-sm">
+        <%= notice %>
+      </div>
+    <% end %>
+
+    <% if alert.present? %>
+      <div class="mb-4 p-3 rounded bg-red-100 text-red-800 text-sm">
+        <%= alert %>
+      </div>
+    <% end %>
+
+    <div class="bg-white rounded-2xl shadow p-6 mb-6">
+      <h2 class="text-lg font-semibold mb-3">ペアIDを発行</h2>
+      <p class="text-sm text-gray-600 mb-4">
+        こどもログイン画面で入力するIDです。発行したIDをこどもに渡してください。
+      </p>
+
+      <%= button_to "ペアIDを発行",
+          parent_role_children_path,
+          method: :post,
+          class: "btn btn-soft btn-primary rounded-2xl w-full" %>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-6">
+      <h2 class="text-lg font-semibold mb-4">発行済みペアID</h2>
+
+      <% if @children.blank? %>
+        <p class="text-sm text-gray-600">まだペアIDは発行されていません。</p>
+      <% else %>
+        <div class="space-y-4">
+          <% @children.each do |child| %>
+            <div class="border rounded-2xl p-4">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <div class="text-sm text-gray-500">こども</div>
+                  <div class="font-semibold"><%= child.name.presence || "（名称未設定）" %></div>
+
+                  <div class="mt-3 text-sm text-gray-500">ペアID</div>
+                  <div class="text-xl font-bold tracking-wider">
+                    <%= child.pair_code %>
+                  </div>
+                </div>
+
+                <div class="flex flex-col gap-2 min-w-[140px]">
+                  <%= button_to "再発行",
+                      parent_role_child_pair_code_path(child),
+                      method: :patch,
+                      data: { turbo_confirm: "再発行すると古いペアIDではログインできなくなります。続けますか？" },
+                      class: "btn btn-soft btn-neutral rounded-2xl w-full" %>
+
+                  <%= button_to "削除",
+                      parent_role_child_path(child),
+                      method: :delete,
+                      data: { turbo_confirm: "このペアIDを削除します。関連データも消える可能性があります。続けますか？" },
+                      class: "btn btn-soft btn-error rounded-2xl w-full" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+</div>

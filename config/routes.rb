@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   namespace :parent_role do
-    resources :children do
+    resources :children, only: [:index, :create, :show, :destroy] do
+      resource :pair_code, only: [:update] # 再発行用（child単位）
+
       resources :routines, only: [ :index, :new, :create, :edit, :update ]
     end
 
@@ -13,7 +15,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :child_session, only: [:new, :create, :destroy]
+
   namespace :child_role do
+    root "dashboards#show"
     resources :routines, only: [:index, :show] do
       resources :routine_executions, only: [:create]
     end

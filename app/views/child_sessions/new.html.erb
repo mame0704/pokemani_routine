@@ -1,0 +1,31 @@
+<div class="min-h-screen flex flex-col items-center justify-center bg-base-200 px-6">
+  <div class="w-full max-w-sm bg-white p-8 rounded-2xl shadow">
+
+    <h1 class="text-2xl font-bold text-center mb-6">
+      こどもログイン
+    </h1>
+
+    <% if flash[:alert] %>
+      <div class="mb-4 text-red-600 text-sm">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+
+    <%= form_with url: child_session_path, method: :post, local: true do %>
+
+      <div class="mb-4">
+        <%= label_tag :pair_code, "ペアコード", class: "block text-sm font-medium mb-1" %>
+        <%= text_field_tag :pair_code, nil,
+              class: "w-full border rounded px-3 py-2",
+              required: true %>
+      </div>
+
+      <div>
+        <%= submit_tag "ログイン",
+              class: "w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600" %>
+      </div>
+
+    <% end %>
+
+  </div>
+</div>
