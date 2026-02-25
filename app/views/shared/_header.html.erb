@@ -3,10 +3,23 @@
     ポケマニルーティン
   </h1>
 
-  <% unless controller_name == "tops" %>
-    <%= link_to "ログアウト",
-        destroy_user_session_path,
-        data: { turbo_method: :delete },
-        class: "btn btn-soft btn-neutral rounded-2xl px-6" %>
+<%# 子どもログイン画面では何も出さない %>
+  <% unless controller_path.in?(["child_sessions", "tops", "devise/sessions"]) %>
+
+    <%# child_role配下（子どもログイン後の画面）は「ペアコード解除（子どもログアウト）」 %>
+    <% if controller_path.start_with?("child_role/") %>
+      <%= link_to "ログアウト",
+          child_session_path,
+          data: { turbo_method: :delete },
+          class: "btn btn-soft btn-neutral rounded-2xl px-6" %>
+
+    <%# それ以外は親のDeviseログアウト %>
+    <% else %>
+      <%= link_to "ログアウト",
+          destroy_user_session_path,
+          data: { turbo_method: :delete },
+          class: "btn btn-soft btn-neutral rounded-2xl px-6" %>
+    <% end %>
+
   <% end %>
 </header>
