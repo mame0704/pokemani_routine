@@ -1,6 +1,7 @@
 # app/controllers/parent_role/pair_codes_controller.rb
 module ParentRole
   class PairCodesController < ApplicationController
+    layout "parent"
     before_action :authenticate_user!
 
     def update

@@ -20,20 +20,45 @@
 
   <!-- 実行ボタン -->
   <div class="w-full max-w-md">
-    <%# 今日すでに実行済みか確認 %>
-    <% executed_today = @routine.routine_executions.exists?(executed_on: Date.current) %>
+    <% today_execution = @routine.routine_executions.find_by(executed_on: Date.current) %>
+    <% latest_approval = today_execution&.routine_approvals&.order(created_at: :desc)&.first %>
 
-    <%= form_with model: [@routine, @routine.routine_executions.build], 
+    <% executed_today =
+        if today_execution.nil?
+          false
+        elsif today_execution.completed?
+          true
+        elsif latest_approval&.rejected?
+          false
+        else
+          true
+        end %>
+
+    <%= form_with model: [@routine, @routine.routine_executions.build],
                   url: child_role_routine_routine_executions_path(@routine),
                   local: true do |f| %>
 
-      <%= f.submit "ルーティン実行", 
+      <%= f.submit "ルーティン実行",
                    class: "btn btn-primary btn-lg w-full rounded-2xl #{'btn-disabled' if executed_today}",
                    disabled: executed_today %>
 
-      <% if executed_today %>
-        <p class="text-center text-green-600 mt-2">今日のルーティンはすでに実行済みです ✅</p>
+      <%# メッセージ表示 %>
+      <% if today_execution&.completed? %>
+        <p class="text-center text-green-600 mt-2">
+          今日のルーティンは承認済みです ✅
+        </p>
+
+      <% elsif latest_approval&.rejected? %>
+        <p class="text-center text-red-500 mt-2">
+          差し戻しされました。もう一度実行してください。
+        </p>
+
+      <% elsif today_execution.present? %>
+        <p class="text-center text-gray-500 mt-2">
+          現在、承認待ちです。
+        </p>
       <% end %>
+
     <% end %>
   </div>
 

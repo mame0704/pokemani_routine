@@ -1,5 +1,6 @@
 module ParentRole
   class ChildrenController < ApplicationController
+    layout "parent"
     before_action :authenticate_user!
 
     def index

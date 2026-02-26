@@ -14,14 +14,9 @@
       ポイント
     </button>
 
-  <% if current_user.present? && current_child.blank? %>
+ 
     <%= link_to "アカウント",
         parent_role_children_path,
         class: "flex flex-col items-center text-sm" %>
-  <% else %>
-    <button class="flex flex-col items-center text-sm" disabled>
-      アカウント
-    </button>
-  <% end %>
   </div>
 </footer>
