@@ -1,0 +1,31 @@
+<h1 class="text-2xl font-bold mb-6">
+  <%= @child.name %> のルーティン管理
+</h1>
+
+<% if @routines.any? %>
+  <ul class="space-y-3">
+    <% @routines.each do |routine| %>
+      <li class="p-4 bg-white shadow rounded flex justify-between items-center">
+        <div>
+          <p class="font-semibold"><%= routine.title %></p>
+          <p class="text-sm text-gray-500">
+            作成日: <%= routine.created_at.strftime("%Y/%m/%d") %>
+          </p>
+        </div>
+
+        <%= link_to "削除",
+          parent_role_child_routine_path(@child, routine),
+          data: { turbo_method: :delete, turbo_confirm: "このルーティンを削除しますか？" },
+          class: "text-red-600 font-semibold" %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="text-gray-600">ルーティンがまだありません。</p>
+<% end %>
+
+<div class="mt-8">
+  <%= link_to "＋ 新しいルーティンを作成",
+    new_parent_role_child_routine_path(@child),
+    class: "btn btn-primary" %>
+</div>

@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     resources :children, only: [:index, :create, :show, :destroy] do
       resource :pair_code, only: [:update] # 再発行用（child単位）
 
-      resources :routines, only: [ :index, :new, :create, :edit, :update ]
+      resources :routines, only: [ :index, :new, :create, :edit, :update, :destroy]
     end
 
     root "routine_approvals#new"
