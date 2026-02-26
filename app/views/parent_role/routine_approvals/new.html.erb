@@ -1,50 +1,83 @@
-<h1>ルーティン承認（今日）</h1>
+<div class="container mx-auto max-w-3xl px-4 py-6">
 
-<% if @routine_executions.empty? %>
-  <p>今日はまだ実行がありません。</p>
-<% end %>
+  <% child_for_routines = current_user.children.first %>
 
-<% @routine_executions.each do |execution| %>
-  <div style="border: 1px solid #ddd; padding: 12px; margin: 12px 0;">
-    <p>
-      <strong>子ども：</strong>
-      <%= execution.routine.child.name %>
-    </p>
-
-    <p>
-      <strong>ルーティン：</strong>
-      <%= execution.routine.title %>
-    </p>
-
-    <p>
-      <strong>実行日：</strong>
-      <%= execution.executed_on %>
-    </p>
-
-    <%# ルーティン項目の表示（itemsが配列/JSON等で入っている想定） %>
-    <% if execution.routine.items.present? %>
-      <p><strong>項目：</strong></p>
-      <ul>
-        <% Array(execution.routine.items).each do |item| %>
-          <li><%= item %></li>
-        <% end %>
-      </ul>
+  <div class="mb-4">
+    <% if child_for_routines.present? %>
+      <%= link_to "← ルーティン一覧へ",
+          parent_role_child_routines_path(child_for_routines),
+          class: "btn btn-outline btn-sm" %>
+    <% else %>
+      <%= link_to "← 子どもを作成する",
+          parent_role_children_path,
+          class: "btn btn-outline btn-sm" %>
     <% end %>
-
-    <div style="display: flex; gap: 8px; margin-top: 12px;">
-      <%# 承認 %>
-      <%= form_with url: parent_role_routine_execution_routine_approvals_path(execution),
-                    method: :post do |f| %>
-        <%= f.hidden_field :decision, value: "approved" %>
-        <%= f.submit "承認する" %>
-      <% end %>
-
-      <%# 差し戻し %>
-      <%= form_with url: parent_role_routine_execution_routine_approvals_path(execution),
-                    method: :post do |f| %>
-        <%= f.hidden_field :decision, value: "rejected" %>
-        <%= f.submit "差し戻す" %>
-      <% end %>
-    </div>
   </div>
-<% end %>
+
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold">ルーティン承認（今日）</h1>
+    <p class="text-sm text-base-content/60 mt-1">
+      今日実行されたルーティンを確認して、承認または差し戻しを行います。
+    </p>
+  </div>
+
+  <% if @routine_executions.empty? %>
+    <div class="alert alert-info shadow-sm">
+      <span>今日はまだ実行がありません。</span>
+    </div>
+  <% end %>
+
+  <div class="space-y-4 mt-4">
+    <% @routine_executions.each do |execution| %>
+      <div class="card bg-base-100 shadow-sm border border-base-200">
+        <div class="card-body gap-4">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <h2 class="card-title text-lg">
+                <%= execution.routine.title %>
+              </h2>
+              <div class="mt-1 text-sm text-base-content/70">
+                <span class="font-medium">子ども：</span>
+                <%= execution.routine.child.name %>
+              </div>
+            </div>
+
+            <div class="badge badge-outline">
+              <span class="text-xs">
+                実行日：<%= execution.executed_on %>
+              </span>
+            </div>
+          </div>
+
+          <% if execution.routine.items.present? %>
+            <div class="bg-base-200/40 rounded-2xl p-4">
+              <p class="font-semibold mb-2">項目</p>
+              <ul class="list-disc pl-5 space-y-1 text-sm">
+                <% Array(execution.routine.items).each do |item| %>
+                  <li><%= item %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+        <div class="card-actions justify-end gap-2 pt-2">
+          <%= form_with url: parent_role_routine_execution_routine_approvals_path(execution),
+                        method: :post,
+                        scope: :routine_approval do |f| %>
+            <%= f.hidden_field :decision, value: "approved" %>
+            <%= f.submit "承認する",
+                class: "btn btn-success btn-sm" %>
+          <% end %>
+
+          <%= form_with url: parent_role_routine_execution_routine_approvals_path(execution),
+                        method: :post,
+                        scope: :routine_approval do |f| %>
+            <%= f.hidden_field :decision, value: "rejected" %>
+            <%= f.submit "差し戻す",
+                class: "btn btn-warning btn-sm" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

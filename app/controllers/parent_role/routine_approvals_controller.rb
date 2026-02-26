@@ -12,8 +12,10 @@ module ParentRole
       @routine_executions =
         RoutineExecution
           .joins(routine: :child)
+          .left_outer_joins(:routine_approvals)
           .where(children: { user_id: current_user.id })
-          .where(executed_on: today)
+          .where(executed_on: today, status: :pending)
+          .where(routine_approvals: { id: nil }) # ← 未判定（approvalなし）だけ表示
           .includes(routine: :child)
           .order(created_at: :desc)
 
@@ -21,18 +23,24 @@ module ParentRole
       @routine_approval = RoutineApproval.new
     end
 
-    # POST /parent_role/routine_executions/:routine_execution_id/routine_approvals
     def create
-      approval = @routine_execution.routine_approvals.build(
-        user: current_user,
-        decision: decision_param
-      )
+      approval = @routine_execution.routine_approvals.first_or_initialize
+      approval.user = current_user
+      approval.decision = decision_param
 
-      if approval.save
-        redirect_to parent_role_root_path, notice: "承認を記録しました"
-      else
-        redirect_to parent_role_root_path, alert: approval.errors.full_messages.to_sentence
+      RoutineApproval.transaction do
+        approval.save!
+
+        if approval.approved?
+          @routine_execution.update!(status: :completed)
+        elsif approval.rejected?
+          @routine_execution.update!(status: :pending)
+        end
       end
+
+      redirect_to parent_role_root_path, notice: "承認を記録しました"
+    rescue ActiveRecord::RecordInvalid
+      redirect_to parent_role_root_path, alert: approval.errors.full_messages.to_sentence
     end
 
     private
@@ -43,9 +51,12 @@ module ParentRole
         RoutineExecution
           .joins(routine: :child)
           .where(children: { user_id: current_user.id })
-          .find(params[:routine_execution_id])
-    rescue ActiveRecord::RecordNotFound
-      redirect_to parent_role_root_path, alert: "対象の実行が見つかりません"
+          .find_by(id: params[:routine_execution_id])
+
+      unless @routine_execution
+        redirect_to parent_role_root_path, alert: "対象の実行が見つかりません"
+        return
+      end
     end
 
     # decision だけ受ける
