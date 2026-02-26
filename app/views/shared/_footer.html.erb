@@ -1,6 +1,15 @@
 <footer class="fixed bottom-0 w-full bg-base-200 border-t z-50">
   <div class="flex justify-around items-center h-16">
-    <%= link_to "ルーティン", routine_path_for(current_user), class: "flex flex-col items-center text-sm" %>
+    <% if controller_path.start_with?("child_role/") %>
+      <%= link_to "ルーティン",
+          child_role_routine_routine_executions_path(@routine),
+          data: { turbo_method: :post },
+          class: "flex flex-col items-center text-sm" %>
+    <% else %>
+      <%= link_to "ルーティン",
+          routine_path_for(current_user),
+          class: "flex flex-col items-center text-sm" %>
+    <% end %>
 
     <button class="flex flex-col items-center text-sm">
       おてつだい
@@ -14,9 +23,10 @@
       ポイント
     </button>
 
- 
-    <%= link_to "アカウント",
-        parent_role_children_path,
-        class: "flex flex-col items-center text-sm" %>
+    <% unless controller_path.start_with?("child_role/") %>
+      <%= link_to "ペアID発行",
+          parent_role_children_path,
+          class: "flex flex-col items-center text-sm" %>
+    <% end %>
   </div>
 </footer>
