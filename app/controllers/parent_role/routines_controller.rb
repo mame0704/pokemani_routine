@@ -9,7 +9,8 @@ module ParentRole
     end
 
     def new
-      @routine = @child.routines.build
+      @routine = Routine.new
+      @children = current_user.children.order(:id)
     end
 
     def create
