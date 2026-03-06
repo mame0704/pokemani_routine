@@ -1,14 +1,14 @@
 module ChildRole
   class RoutinesController < ApplicationController
     layout "child"
+    before_action :authenticate_child!
 
     def index
-      @routines = current_user.children.first.routines
+      @routines = current_child.routines
     end
 
     def show
-      @routine = Routine.find(params[:id])
+      @routine = current_child.routines.find(params[:id])
     end
-
   end
 end
