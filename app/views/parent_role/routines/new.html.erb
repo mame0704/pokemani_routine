@@ -1,30 +1,72 @@
-<div class="min-h-screen flex flex-col items-center justify-center bg-base-200 px-6 py-12">
+<div class="min-h-screen bg-white px-4 py-8 sm:px-6 lg:px-8">
+  <div class="mx-auto w-full max-w-2xl">
 
-  <h1 class="text-4xl font-bold text-center text-base-content mb-8">
-    新しいルーティンを作成
-  </h1>
-
-  <%= form_with(model: [:parent_role, @child, @routine], local: true, class: "w-full max-w-lg space-y-6") do |f| %>
-
-    <div class="form-control w-full">
-      <%= f.label :title, "ルーティンタイトル", class: "label" %>
-      <%= f.text_field :title, class: "input input-bordered w-full", placeholder: "例: 朝の習慣" %>
+    <div class="mb-6">
+      <%= link_to "← ルーティン一覧へ",
+          parent_role_child_routines_path(@child),
+          class: "inline-flex items-center rounded-2xl border border-yellow-200 bg-white px-4 py-2 text-sm font-medium text-black shadow-sm transition hover:bg-yellow-50" %>
     </div>
 
-    <div class="form-control w-full" id="routine-items">
-      <%= f.label :items, "ルーティン項目", class: "label" %>
+    <div class="mb-6">
+      <h1 class="text-2xl font-bold text-black sm:text-3xl">
+        新しいルーティンを作成
+      </h1>
+      <p class="mt-2 text-sm text-gray-600">
+        毎日続けたい習慣ややることを登録できます
+      </p>
+    </div>
 
-      <div class="flex gap-2 mb-2">
-        <%= text_field_tag "routine[items][]", nil, class: "input input-bordered w-full", placeholder: "例: 歯磨き" %>
-        <button type="button" id="add-item" class="btn btn-outline">+</button>
+    <% if @routine.errors.any? %>
+      <div class="mb-6 rounded-3xl border border-red-200 bg-red-50 p-4 shadow-sm">
+        <p class="mb-2 text-sm font-semibold text-red-600">
+          ルーティンを作成できませんでした
+        </p>
+        <ul class="list-disc space-y-1 pl-5 text-sm text-red-500">
+          <% @routine.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
       </div>
-    </div>
+    <% end %>
 
-    <div class="form-control w-full">
-      <%= f.submit "作成", class: "btn btn-primary w-full" %>
-    </div>
+    <div class="rounded-3xl border border-green-100 bg-green-50 p-6 shadow-sm sm:p-8">
+      <%= form_with(model: [:parent_role, @child, @routine], local: true, class: "space-y-6") do |f| %>
 
-  <% end %>
+        <div class="w-full">
+          <%= f.label :title, "ルーティンタイトル", class: "mb-2 block text-sm font-medium text-black" %>
+          <%= f.text_field :title,
+                class: "w-full rounded-2xl border border-green-200 bg-white px-4 py-3 text-black placeholder-gray-400 outline-none transition focus:border-green-300",
+                placeholder: "例: 朝の習慣" %>
+        </div>
+
+        <div class="w-full">
+          <%= f.label :items, "ルーティン項目", class: "mb-2 block text-sm font-medium text-black" %>
+
+          <div id="routine-items" class="space-y-3">
+            <div class="flex items-center gap-2">
+              <%= text_field_tag "routine[items][]", nil,
+                    class: "w-full rounded-2xl border border-sky-200 bg-white px-4 py-3 text-black placeholder-gray-400 outline-none transition focus:border-sky-300",
+                    placeholder: "例: 歯みがき" %>
+
+              <button
+                type="button"
+                id="add-item"
+                class="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-yellow-200 bg-yellow-100 text-lg font-bold text-black shadow-sm transition hover:bg-yellow-200"
+                aria-label="項目を追加">
+                ＋
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <%= f.submit "作成",
+                class: "inline-flex w-full items-center justify-center rounded-2xl border border-yellow-200 bg-yellow-100 px-5 py-3 text-sm font-semibold text-black shadow-sm transition hover:bg-yellow-200" %>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -32,17 +74,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const addButton = document.getElementById("add-item");
   const container = document.getElementById("routine-items");
 
+  if (!addButton || !container) return;
+
   addButton.addEventListener("click", () => {
     const newField = document.createElement("div");
-    newField.classList.add("flex", "gap-2", "mb-2");
+    newField.className = "flex items-center gap-2";
     newField.innerHTML = `
-      <input type="text" name="routine[items][]" class="input input-bordered w-full" placeholder="例: 運動">
-      <button type="button" class="btn btn-outline remove-item">-</button>
+      <input
+        type="text"
+        name="routine[items][]"
+        class="w-full rounded-2xl border border-sky-200 bg-white px-4 py-3 text-black placeholder-gray-400 outline-none transition focus:border-sky-300"
+        placeholder="例: 顔をあらう"
+      >
+      <button
+        type="button"
+        class="remove-item inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-red-200 bg-white text-lg font-bold text-red-500 shadow-sm transition hover:bg-red-50"
+        aria-label="項目を削除">
+        −
+      </button>
     `;
     container.appendChild(newField);
 
     newField.querySelector(".remove-item").addEventListener("click", (e) => {
-      e.target.parentElement.remove();
+      e.currentTarget.parentElement.remove();
     });
   });
 });
