@@ -1,0 +1,55 @@
+<div class="min-h-screen bg-white flex items-center justify-center px-4 py-8">
+  <div class="card w-full max-w-md bg-lime-50 shadow-md rounded-3xl">
+    <div class="card-body p-8">
+      <h2 class="text-2xl font-bold text-center text-black mb-6">新規登録</h2>
+
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+
+        <div class="field mb-5">
+          <p class="mb-2">
+            <%= f.label :email, "メールアドレス", class: "text-black font-medium" %>
+          </p>
+          <p>
+            <%= f.email_field :email,
+                  autofocus: true,
+                  autocomplete: "email",
+                  class: "input input-bordered w-full rounded-2xl bg-white text-black border-green-200 focus:outline-none focus:border-green-300" %>
+          </p>
+        </div>
+
+        <div class="field mb-5">
+          <p class="mb-2">
+            <%= f.label :password, "パスワード", class: "text-black font-medium" %>
+          </p>
+          <p>
+            <%= f.password_field :password,
+                  autocomplete: "new-password",
+                  class: "input input-bordered w-full rounded-2xl bg-white text-black border-green-200 focus:outline-none focus:border-green-300" %>
+          </p>
+        </div>
+
+        <div class="field mb-6">
+          <p class="mb-2">
+            <%= f.label :password_confirmation, "パスワード（確認）", class: "text-black font-medium" %>
+          </p>
+          <p>
+            <%= f.password_field :password_confirmation,
+                  autocomplete: "new-password",
+                  class: "input input-bordered w-full rounded-2xl bg-white text-black border-green-200 focus:outline-none focus:border-green-300" %>
+          </p>
+        </div>
+
+        <div class="actions">
+          <%= f.submit "新規登録",
+                class: "btn w-full rounded-2xl bg-yellow-100 hover:bg-yellow-200 text-black border-yellow-200 shadow-none" %>
+        </div>
+
+      <% end %>
+
+      <div class="mt-6 text-sm text-black">
+        <%= render "users/shared/links" %>
+      </div>
+
+    </div>
+  </div>
+</div>
