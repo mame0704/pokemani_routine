@@ -1,65 +1,87 @@
-<div class="min-h-screen flex flex-col items-center justify-center bg-base-200 px-6 py-8">
+<div class="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6 lg:px-8 bg-white text-black">
 
-  <!-- ルーティンタイトル -->
-  <h1 class="text-3xl font-bold text-center text-base-content mb-6">
-    <%= @routine.title %>
-  </h1>
-
-  <!-- ルーティン詳細 -->
-  <div class="bg-white shadow-md rounded-2xl w-full max-w-md p-6 mb-6">
-    <% if @routine.items.present? %>
-      <ul class="list-disc pl-5 space-y-2">
-        <% @routine.items.each do |item| %>
-          <li class="text-lg text-base-content"><%= item %></li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p class="text-center text-gray-400">ルーティンの内容はまだ設定されていません</p>
-    <% end %>
+  <div class="mb-6 rounded-3xl bg-sky-50 p-5 shadow-sm sm:p-6">
+    <h1 class="text-xl font-bold text-black sm:text-2xl">
+      ルーティン実行
+    </h1>
+    <p class="mt-2 text-sm leading-relaxed text-black/70">
+      ルーティンの内容を確認して実行してください。
+    </p>
   </div>
 
-  <!-- 実行ボタン -->
-  <div class="w-full max-w-md">
-    <% today_execution = @routine.routine_executions.find_by(executed_on: Date.current) %>
-    <% latest_approval = today_execution&.routine_approvals&.order(created_at: :desc)&.first %>
+  <div class="overflow-hidden rounded-3xl border border-green-100 bg-green-50 shadow-sm">
 
-    <% executed_today =
-        if today_execution.nil?
-          false
-        elsif today_execution.completed?
-          true
-        elsif latest_approval&.rejected?
-          false
-        else
-          true
-        end %>
+    <div class="p-5 sm:p-6">
 
-    <%= form_with model: [@routine, @routine.routine_executions.build],
-                  url: child_role_routine_routine_executions_path(@routine),
-                  local: true do |f| %>
+      <!-- タイトル + 実行日 -->
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div class="min-w-0">
+          <h2 class="text-lg font-bold text-black sm:text-xl break-words">
+            <%= @routine.title %>
+          </h2>
+        </div>
 
-      <%= f.submit "ルーティン実行",
-                   class: "btn btn-primary btn-lg w-full rounded-2xl #{'btn-disabled' if executed_today}",
-                   disabled: executed_today %>
+        <div class="self-start rounded-2xl bg-white px-3 py-2 text-xs font-medium text-black shadow-sm border border-green-100">
+          実行日：<%= Date.current %>
+        </div>
+      </div>
 
-      <%# メッセージ表示 %>
-      <% if today_execution&.completed? %>
-        <p class="text-center text-green-600 mt-2">
-          今日のルーティンは承認済みです ✅
-        </p>
-
-      <% elsif latest_approval&.rejected? %>
-        <p class="text-center text-red-500 mt-2">
-          差し戻しされました。もう一度実行してください。
-        </p>
-
-      <% elsif today_execution.present? %>
-        <p class="text-center text-gray-500 mt-2">
-          現在、承認待ちです。
-        </p>
+      <% if @routine.items.present? %>
+        <div class="mt-5 rounded-3xl bg-white p-4 shadow-sm border border-sky-100">
+          <p class="mb-2 text-sm font-bold text-black">項目</p>
+          <ul class="list-disc space-y-1 pl-5 text-sm text-black">
+            <% @routine.items.each do |item| %>
+              <li><%= item %></li>
+            <% end %>
+          </ul>
+        </div>
       <% end %>
 
-    <% end %>
+      <% today_execution = @routine.routine_executions.find_by(executed_on: Date.current) %>
+      <% latest_approval = today_execution&.routine_approvals&.order(created_at: :desc)&.first %>
+
+      <% executed_today =
+          if today_execution.nil?
+            false
+          elsif today_execution.completed?
+            true
+          elsif latest_approval&.rejected?
+            false
+          else
+            true
+          end %>
+
+      <div class="mt-5 flex flex-col gap-3">
+
+        <%= form_with model: [@routine, @routine.routine_executions.build],
+                      url: child_role_routine_routine_executions_path(@routine),
+                      local: true do |f| %>
+
+          <%= f.submit "ルーティン実行",
+              class: "w-full rounded-2xl bg-yellow-100 px-5 py-3 text-sm font-bold text-black shadow-sm transition hover:bg-yellow-200 #{'opacity-50 cursor-not-allowed' if executed_today}",
+              disabled: executed_today %>
+
+        <% end %>
+
+        <% if today_execution&.completed? %>
+          <p class="text-center text-sm text-black mt-2">
+            今日のルーティンは承認済みです ✅
+          </p>
+
+        <% elsif latest_approval&.rejected? %>
+          <p class="text-center text-sm text-black mt-2">
+            差し戻しされました。もう一度実行してください。
+          </p>
+
+        <% elsif today_execution.present? %>
+          <p class="text-center text-sm text-black/70 mt-2">
+            現在、承認待ちです。
+          </p>
+        <% end %>
+
+      </div>
+
+    </div>
   </div>
 
 </div>
