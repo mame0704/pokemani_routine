@@ -1,85 +1,149 @@
-<div class="min-h-screen flex flex-col items-center justify-center bg-base-200 px-6">
-  <h1 class="text-4xl font-bold text-center text-base-content mb-12">
-    ポケマニルーティン
-  </h1>
+<div class="bg-white text-black">
+  <!-- 1枚目：タイトル / ログイン導線 -->
+  <section class="flex min-h-screen items-center px-4 py-10 sm:px-6 lg:px-8">
+    <div class="mx-auto w-full max-w-5xl">
+      <div class="rounded-[2rem] border border-green-100 bg-white px-6 py-12 shadow-sm sm:px-10 sm:py-16">
+        <div class="mx-auto max-w-2xl text-center">
+          <p class="mb-4 inline-flex rounded-full bg-green-50 px-4 py-2 text-sm font-medium text-black">
+            やさしく続ける、親子のルーティン習慣
+          </p>
 
-  <div class="flex flex-col gap-6 w-full max-w-xs">
-    <%= link_to "親ログイン", user_session_path,
-        class: "btn btn-soft btn-secondary rounded-2xl px-8 w-full" %>
+          <h2 class="text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
+            ポケマニルーティン
+          </h2>
 
-    <%= link_to "こどもログイン", new_child_session_path,
-        class: "btn btn-soft btn-warning rounded-2xl px-8 w-full" %>
-  </div>
-</div>
+          <p class="mt-5 text-sm leading-7 text-black/70 sm:text-base">
+            親子でルーティンを確認しながら、
+            毎日の積み重ねを見える化するアプリです。<br>
+            やさしいデザインで、自然に続けられる体験を目指します。
+          </p>
 
-  <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 mb-25">
-    <a href="#features" class="btn btn-circle btn-primary animate-bounce">
-      <span class="material-symbols-outlined text-2xl text-secondary-content">
-      </span>
-    </a>
-  </div>
-</div>
+          <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
+            <%= link_to "親ログイン", user_session_path,
+                class: "inline-flex items-center justify-center rounded-2xl bg-yellow-100 px-6 py-3 text-sm font-medium text-black shadow-sm transition hover:bg-yellow-200" %>
 
-<div class="bg-base-200 px-6">
+            <%= link_to "こどもログイン", new_child_session_path,
+                class: "inline-flex items-center justify-center rounded-2xl bg-sky-100 px-6 py-3 text-sm font-medium text-black shadow-sm transition hover:bg-sky-200" %>
+          </div>
 
-  <section id="features" class="max-w-3xl mx-auto mb-20 p-10 bg-primary-content rounded-3xl shadow">
-    <h2 class="text-2xl font-bold mb-6 text-neutral text-center">
-      つかいかたのながれ
-    </h2>
-
-    <div class="space-y-4">
-      <div class="chat chat-start">
-        <div class="chat-header">親</div>
-        <div class="chat-bubble chat-bubble-secondary">
-          ルーティンさくせい📝
-        </div>
-      </div>
-
-      <div class="chat chat-end">
-        <div class="chat-header">こども</div>
-        <div class="chat-bubble chat-bubble-warning">
-          ルーティンじっこう📝
-        </div>
-      </div>
-
-      <div class="chat chat-start">
-        <div class="chat-header">親</div>
-        <div class="chat-bubble chat-bubble-secondary">
-          ルーティンチェック✅
-        </div>
-      </div>
-
-      <div class="chat chat-end">
-        <div class="chat-header">こども</div>
-        <div class="chat-bubble chat-bubble-warning">
-          おこづかいゲット💰
+          <div class="mt-10">
+            <a href="#how-to-use"
+               class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-gray-100 bg-white text-lg shadow-sm transition hover:-translate-y-0.5">
+              ↓
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="flex justify-center gap-6 mb-16">
-    <%= link_to "親ログイン", user_session_path,
-        class: "btn btn-soft btn-secondary rounded-2xl px-8" %>
+  <!-- 2枚目：使い方 / 下部導線 -->
+<section id="how-to-use" class="flex min-h-screen items-center px-4 py-10 sm:px-6 lg:px-8">
+  <div class="mx-auto w-full max-w-5xl">
+    <div class="space-y-8">
 
-    <%= link_to "こどもログイン", new_child_session_path,
-        class: "btn btn-soft btn-warning rounded-2xl px-8" %>
+      <!-- つかいかたカード -->
+      <div class="rounded-[2rem] border border-sky-100 bg-white px-6 py-10 shadow-sm sm:px-10 sm:py-14 mb-16">
+
+        <section id="features" class="px-4 pb-16">
+          <div class="max-w-3xl mx-auto">
+
+            <div class="mb-8 text-center">
+              <h2 class="text-2xl font-bold mb-2">
+                つかいかたのながれ
+              </h2>
+              <p class="text-sm text-black/70">
+                親子でシンプルに使えます
+              </p>
+            </div>
+
+            <div class="space-y-4">
+
+              <div class="flex">
+                <div class="bg-green-50 rounded-3xl px-5 py-4 shadow-sm">
+                  <p class="text-xs text-black/60 mb-1">親</p>
+                  <p class="text-sm">ルーティンを作成 📝</p>
+                </div>
+              </div>
+
+              <div class="flex justify-end">
+                <div class="bg-sky-50 rounded-3xl px-5 py-4 shadow-sm">
+                  <p class="text-xs text-black/60 mb-1">こども</p>
+                  <p class="text-sm">ルーティン実行 ✨</p>
+                </div>
+              </div>
+
+              <div class="flex">
+                <div class="bg-green-50 rounded-3xl px-5 py-4 shadow-sm">
+                  <p class="text-xs text-black/60 mb-1">親</p>
+                  <p class="text-sm">ルーティンを確認 ✔</p>
+                </div>
+              </div>
+
+              <div class="flex justify-end">
+                <div class="bg-sky-50 rounded-3xl px-5 py-4 shadow-sm">
+                  <p class="text-xs text-black/60 mb-1">こども</p>
+                  <p class="text-sm">おこづかいをゲット 💰</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+      </div>
+      <!-- ↑ ここでカードを閉じる -->
+
+      <!-- さあ始めようカード（カード外） -->
+      <section class="px-4 pb-10 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-3xl">
+          <div class="rounded-[2rem] bg-gradient-to-r from-green-50 to-sky-50 px-6 py-8 text-center shadow-sm">
+
+            <h2 class="text-xl font-bold sm:text-2xl">
+              さっそくはじめてみましょう
+            </h2>
+
+            <p class="mt-2 text-sm text-black/70">
+              親と子供、それぞれの画面からログインできます
+            </p>
+
+            <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:justify-center">
+              <%= link_to "親ログイン", user_session_path,
+                  class: "inline-flex items-center justify-center rounded-2xl bg-yellow-100 px-6 py-3 text-sm font-medium text-black shadow-sm transition hover:bg-yellow-200" %>
+
+              <%= link_to "こどもログイン", new_child_session_path,
+                  class: "inline-flex items-center justify-center rounded-2xl bg-sky-100 px-6 py-3 text-sm font-medium text-black shadow-sm transition hover:bg-sky-200" %>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </div>
   </div>
+</section>
 
-  <div class="text-center mb-20">
-    <button class="btn bg-black text-white border-black rounded-2xl px-6">
-      <svg aria-label="X logo" width="16" height="12" viewBox="0 0 300 271" xmlns="http://www.w3.org/2000/svg">
-        <path fill="currentColor" d="m236 0h46l-101 115 118 156h-92.6l-72.5-94.8-83 94.8h-46l107-123-113-148h94.9l65.5 86.6zm-16.1 244h25.5l-165-218h-27.4z"/>
-      </svg>
-      共有する
-    </button>
-  </div>
+        <!-- X共有ボタン -->
+        <div class="flex justify-center -mt-4 mb-10">
+          <button class="btn bg-black text-white border-black rounded-2xl px-6">
+            <svg aria-label="X logo" width="16" height="12" viewBox="0 0 300 271" xmlns="http://www.w3.org/2000/svg">
+              <path fill="currentColor" d="m236 0h46l-101 115 118 156h-92.6l-72.5-94.8-83 94.8h-46l107-123-113-148h94.9l65.5 86.6zm-16.1 244h25.5l-165-218h-27.4z"/>
+            </svg>
+            共有する
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <footer class="py-8 border-t">
-    <ul class="flex justify-center gap-8 text-sm text-neutral">
-      <li><a href="#" class="hover:underline">利用規約</a></li>
-      <li><a href="#" class="hover:underline">プライバシーポリシー</a></li>
-      <li><a href="#" class="hover:underline">お問い合わせ</a></li>
-    </ul>
+  <!-- フッター -->
+  <footer class="border-t border-gray-100 bg-white px-4 py-8 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-5xl">
+      <ul class="flex flex-col items-center gap-4 text-sm text-black/70 sm:flex-row sm:justify-center sm:gap-8">
+        <li><a href="#" class="hover:underline">利用規約</a></li>
+        <li><a href="#" class="hover:underline">プライバシーポリシー</a></li>
+        <li><a href="#" class="hover:underline">お問い合わせ</a></li>
+      </ul>
+    </div>
   </footer>
 </div>
