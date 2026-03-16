@@ -1,0 +1,20 @@
+# .github/workflows/deploy.yml
+name: Deploy to Render
+
+# mainブランチにプッシュしたタイミングor手動で叩く
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    # ifで手動で叩くときにそのときのブランチがmain以外のときは動かないようにしています
+    # 手動実行時は必ずmainを選んでください
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render deploy hook
+        run: curl -fsSL -X POST "$RENDER_DEPLOY_HOOK_URL"
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
