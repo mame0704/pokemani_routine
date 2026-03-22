@@ -8,7 +8,6 @@ class RoutineExecution < ApplicationRecord
 
   enum status: {
     pending: 0,
-    completed: 1,
+    completed: 1
   }
-
 end

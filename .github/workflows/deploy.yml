@@ -9,8 +9,8 @@ on:
 
 jobs:
   deploy:
-    # ifで手動で叩くときにそのときのブランチがmain以外のときは動かないようにしています
-    # 手動実行時は必ずmainを選んでください
+    # ifで手動で叩くときにそのときのブランチがmain以外のときは動かないようにする
+    # 手動実行時は必ずmainを選ぶ
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
