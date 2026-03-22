@@ -6,6 +6,6 @@ class RoutineApproval < ApplicationRecord
 
     enum decision: {
         approved: 0,
-        rejected: 1,
+        rejected: 1
     }
 end

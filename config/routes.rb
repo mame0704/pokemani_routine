@@ -3,24 +3,24 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   namespace :parent_role do
-    resources :children, only: [:index, :create, :show, :destroy] do
-      resource :pair_code, only: [:update] # 再発行用（child単位）
+    resources :children, only: [ :index, :create, :show, :destroy ] do
+      resource :pair_code, only: [ :update ] # 再発行用（child単位）
 
-      resources :routines, only: [ :index, :new, :create, :edit, :update, :destroy]
+      resources :routines, only: [ :index, :new, :create, :edit, :update, :destroy ]
     end
 
     root "routine_approvals#new"
     resources :routine_executions, only: [] do
-      resources :routine_approvals, only: [:create]
+      resources :routine_approvals, only: [ :create ]
     end
   end
 
-  resource :child_session, only: [:new, :create, :destroy]
+  resource :child_session, only: [ :new, :create, :destroy ]
 
   namespace :child_role do
     root "dashboards#show"
-    resources :routines, only: [:index, :show] do
-      resources :routine_executions, only: [:create]
+    resources :routines, only: [ :index, :show ] do
+      resources :routine_executions, only: [ :create ]
     end
   end
 

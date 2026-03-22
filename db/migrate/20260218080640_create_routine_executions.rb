@@ -9,7 +9,7 @@ class CreateRoutineExecutions < ActiveRecord::Migration[7.0]
     end
 
     add_index :routine_executions,
-      [:routine_id, :executed_on],
+      [ :routine_id, :executed_on ],
       unique: true
   end
 end

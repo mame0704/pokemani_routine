@@ -2,7 +2,7 @@ module ParentRole
   class RoutineApprovalsController < ApplicationController
     layout "parent"
     before_action :authenticate_user!
-    before_action :set_routine_execution, only: [:create]
+    before_action :set_routine_execution, only: [ :create ]
 
     # GET /parent_role (root) → routine_approvals#new
     def new
@@ -55,7 +55,7 @@ module ParentRole
 
       unless @routine_execution
         redirect_to parent_role_root_path, alert: "対象の実行が見つかりません"
-        return
+        nil
       end
     end
 
