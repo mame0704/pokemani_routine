@@ -1,0 +1,48 @@
+<div class="mx-auto w-full max-w-3xl bg-white px-4 py-6 text-black sm:px-6 lg:px-8">
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-black sm:text-3xl">
+      ルーティン一覧
+    </h1>
+    <p class="mt-2 text-sm text-gray-600">
+      今日はどのルーティンをやるかえらべます
+    </p>
+  </div>
+
+  <% if @routines.any? %>
+    <div class="space-y-4">
+      <% @routines.each do |routine| %>
+        <div class="rounded-3xl border border-green-100 bg-green-50 p-5 shadow-sm transition hover:shadow-md">
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p class="text-lg font-semibold text-black">
+                <%= routine.title %>
+              </p>
+
+              <% if routine.respond_to?(:description) && routine.description.present? %>
+                <p class="mt-2 text-sm leading-relaxed text-gray-600">
+                  <%= routine.description %>
+                </p>
+              <% end %>
+
+              <p class="mt-2 text-sm text-gray-500">
+                作成日: <%= routine.created_at.strftime("%Y/%m/%d") %>
+              </p>
+            </div>
+
+            <div class="flex justify-end">
+              <%= link_to "実行する",
+                child_role_routine_path(routine),
+                class: "inline-flex items-center justify-center rounded-2xl border border-yellow-200 bg-yellow-100 px-5 py-3 text-sm font-semibold text-black shadow-sm transition hover:bg-yellow-200" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="rounded-3xl border border-sky-100 bg-sky-50 p-6 shadow-sm">
+      <p class="text-sm text-gray-700">
+        まだルーティンがありません。
+      </p>
+    </div>
+  <% end %>
+</div>

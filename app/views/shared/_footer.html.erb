@@ -2,8 +2,7 @@
   <div class="max-w-screen-xl mx-auto flex justify-around items-center h-16 sm:h-18 px-2 sm:px-4">
 
     <% if controller_path.start_with?("child_role/") %>
-      <%= link_to child_role_routine_routine_executions_path(@routine),
-          data: { turbo_method: :post },
+      <%= link_to child_role_routines_path,
           class: "flex flex-1 flex-col items-center justify-center text-xs sm:text-sm text-base-content hover:text-primary transition min-w-0" do %>
 
         <svg xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +19,6 @@
         <span>ルーティン</span>
 
       <% end %>
-
     <% else %>
 
       <%= link_to routine_path_for(current_user),
