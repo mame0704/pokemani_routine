@@ -3,7 +3,7 @@
 
     <div class="mb-6">
       <h1 class="text-2xl font-bold text-black sm:text-3xl">
-        ペアID管理
+        アカウント管理
       </h1>
       <p class="mt-2 text-sm text-gray-600">
         こども用のログインIDを発行・再発行・削除できます
@@ -25,14 +25,14 @@
     <!-- ペアID発行カード（青に変更） -->
     <div class="mb-6 rounded-3xl border border-sky-100 bg-sky-50 p-6 shadow-sm sm:p-8">
       <h2 class="text-lg font-semibold text-black">
-        ペアIDを発行
+        アカウント作成
       </h2>
       <p class="mt-3 text-sm text-gray-600">
         こどもログイン画面で入力するIDです。発行したIDをこどもに渡してください。
       </p>
 
       <div class="mt-5">
-        <%= button_to "ペアIDを発行",
+        <%= button_to "アカウントを作成する",
             parent_role_children_path,
             method: :post,
             class: "inline-flex w-full items-center justify-center rounded-2xl border border-yellow-200 bg-yellow-100 px-5 py-3 text-sm font-semibold text-black shadow-sm transition hover:bg-yellow-200" %>
@@ -42,7 +42,7 @@
     <!-- 発行済みペアID一覧（緑に変更） -->
     <div class="rounded-3xl border border-green-100 bg-green-50 p-6 shadow-sm sm:p-8">
       <h2 class="text-lg font-semibold text-black">
-        発行済みペアID
+        子供一覧
       </h2>
 
       <% if @children.blank? %>
