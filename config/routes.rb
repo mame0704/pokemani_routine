@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get 'users/:id/profile', to: 'users#show', as: 'user_profile'
 
   namespace :parent_role do
-    resources :children, only: [ :index, :create, :show, :destroy ] do
+    resources :children, only: [ :index, :create, :show, :destroy, :edit, :update ] do
       resource :pair_code, only: [ :update ]
 
       resources :routines, only: [ :index, :new, :create, :edit, :update, :destroy ]
