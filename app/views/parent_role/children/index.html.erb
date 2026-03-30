@@ -70,6 +70,9 @@
                 </div>
 
                 <div class="flex w-full flex-col gap-2 sm:w-auto sm:min-w-[160px]">
+                  <%= link_to "編集",
+                      edit_parent_role_child_path(child),
+                      class: "inline-flex w-full items-center justify-center rounded-2xl border border-sky-200 bg-sky-100 px-4 py-2 text-sm font-medium text-black shadow-sm transition hover:bg-sky-200" %>
 
                   <%= button_to "再発行",
                       parent_role_child_pair_code_path(child),

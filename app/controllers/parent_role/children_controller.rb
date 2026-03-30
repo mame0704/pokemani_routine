@@ -7,6 +7,20 @@ module ParentRole
       @children = current_user.children.order(:created_at)
     end
 
+    def edit
+      @child = current_user.children.find(params[:id])
+    end
+
+    def update
+      @child = current_user.children.find(params[:id])
+
+      if @child.update(child_params)
+        redirect_to parent_role_children_path, notice: "名前を更新しました"
+      else
+        render :edit
+      end
+    end
+
     # ペアID発行（= 子ども追加）
     def create
       next_number = current_user.children.count + 1
@@ -23,6 +37,12 @@ module ParentRole
       child = current_user.children.find(params[:id])
       child.destroy!
       redirect_to parent_role_children_path, notice: "ペアIDを削除しました"
+    end
+
+    private
+
+    def child_params
+      params.require(:child).permit(:name)
     end
   end
 end
