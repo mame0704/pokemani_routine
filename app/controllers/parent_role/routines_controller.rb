@@ -3,9 +3,8 @@ module ParentRole
     layout "parent"
     before_action :set_child
 
-
     def index
-      @routines = @child.routines.order(created_at: :desc)
+      @children = current_user.children.order(:created_at)
     end
 
     def new
