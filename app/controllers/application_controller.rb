@@ -1,19 +1,25 @@
 class ApplicationController < ActionController::Base
-  helper_method :current_child, :child_signed_in?
+  helper_method :current_child, :child_mode?, :parent_mode?
+
+  # 親ログイン時の強制リセット
+  before_action :reset_child_session_if_parent
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def current_child
-    return nil unless session[:child_id]
-    @current_child ||= Child.find_by(id: session[:child_id])
+    Child.find_by(id: session[:child_id])
   end
 
-  def child_signed_in?
-    current_child.present?
+  def child_mode?
+    Rails.logger.debug "session[:child_id] = #{session[:child_id].inspect}"
+    session[:child_id].present?
   end
 
-  # 子ども画面用：ログイン必須ガード（MVP版）
+  def parent_mode?
+    session[:child_id].blank?
+  end
+
   def authenticate_child!
-    return if child_signed_in?
+    return if child_mode?
     redirect_to new_child_session_path, alert: "こどもログインが必要です"
   end
 
@@ -21,15 +27,19 @@ class ApplicationController < ActionController::Base
     parent_role_root_path
   end
 
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
   private
 
+  def reset_child_session_if_parent
+    if user_signed_in? && !request.path.start_with?("/child_role") && session[:child_id].present?
+      Rails.logger.debug "🔥 child_id RESET"
+      session.delete(:child_id)
+    end
+  end
+
   def configure_permitted_parameters
-    # 新規登録時にnicknameの取得を許可
     devise_parameter_sanitizer.permit(:sign_up, keys: [:nickname])
-    # 情報更新時にnicknameの取得を許可
     devise_parameter_sanitizer.permit(:account_update, keys: [:nickname])
   end
 end

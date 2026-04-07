@@ -1,5 +1,5 @@
 module ParentRole
-  class ChildrenController < ApplicationController
+  class AccountsController < ApplicationController
     layout "parent"
     before_action :authenticate_user!
 
@@ -20,7 +20,7 @@ module ParentRole
       @child = current_user.children.find(params[:id])
 
       if @child.update(child_params)
-        redirect_to parent_role_children_path, notice: "名前を更新しました"
+        redirect_to parent_role_accounts_path, notice: "名前を更新しました"
       else
         render :edit
       end
@@ -32,16 +32,16 @@ module ParentRole
       child = current_user.children.build(name: "こども#{next_number}")
 
       if child.save
-        redirect_to parent_role_children_path, notice: "ペアIDを発行しました"
+        redirect_to parent_role_accounts_path, notice: "ペアIDを発行しました"
       else
-        redirect_to parent_role_children_path, alert: "ペアIDの発行に失敗しました"
+        redirect_to parent_role_accounts_path, alert: "ペアIDの発行に失敗しました"
       end
     end
 
     def destroy
       child = current_user.children.find(params[:id])
       child.destroy!
-      redirect_to parent_role_children_path, notice: "ペアIDを削除しました"
+      redirect_to parent_role_accounts_path, notice: "ペアIDを削除しました"
     end
 
     private

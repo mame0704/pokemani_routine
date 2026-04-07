@@ -1,0 +1,29 @@
+<div class="min-h-screen bg-white flex items-center justify-center px-4">
+  <div class="w-full max-w-md bg-sky-50 rounded-2xl shadow-md p-6">
+
+    <h2 class="text-xl font-semibold text-center mb-6 text-gray-800">
+      子どもの名前を編集
+    </h2>
+
+    <%= form_with model: @child, url: parent_role_child_path(@child), method: :patch, local: true do |f| %>
+
+      <div class="mb-6">
+
+        <%= f.label :name, "名前", class: "block text-sm mb-2 text-gray-700" %>
+
+        <!-- ここだけ白 -->
+        <%= f.text_field :name,
+              class: "w-full bg-white px-3 py-2 border border-gray-200 rounded-xl
+                     focus:outline-none focus:ring-2 focus:ring-yellow-100" %>
+
+      </div>
+
+      <div class="flex justify-center">
+        <%= f.submit "更新する",
+              class: "bg-yellow-100 hover:bg-yellow-200 text-gray-800 px-6 py-2 rounded-full transition" %>
+      </div>
+
+    <% end %>
+
+  </div>
+</div>

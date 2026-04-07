@@ -1,5 +1,4 @@
 class ChildSessionsController < ApplicationController
-  layout "child"
 
   def new
   end
@@ -9,10 +8,7 @@ class ChildSessionsController < ApplicationController
     child = Child.find_by(pair_code: pair_code)
 
     if child
-        Rails.logger.debug("=== login ok child_id=#{child.id}")
-        Rails.logger.debug("=== session before: #{session.to_hash}")
         session[:child_id] = child.id
-        Rails.logger.debug("=== session after: #{session.to_hash}")
 
         routine = child.routines.order(:id).first
         if routine

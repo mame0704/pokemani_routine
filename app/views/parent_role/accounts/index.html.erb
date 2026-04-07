@@ -33,7 +33,7 @@
 
       <div class="mt-5">
         <%= button_to "アカウントを作成する",
-            parent_role_children_path,
+            parent_role_accounts_path,
             method: :post,
             class: "inline-flex w-full items-center justify-center rounded-2xl border border-yellow-200 bg-yellow-100 px-5 py-3 text-sm font-semibold text-black shadow-sm transition hover:bg-yellow-200" %>
       </div>
@@ -71,7 +71,7 @@
 
                 <div class="flex w-full flex-col gap-2 sm:w-auto sm:min-w-[160px]">
                   <%= link_to "編集",
-                      edit_parent_role_child_path(child),
+                      edit_parent_role_accounts_path(child),
                       class: "inline-flex w-full items-center justify-center rounded-2xl border border-sky-200 bg-sky-100 px-4 py-2 text-sm font-medium text-black shadow-sm transition hover:bg-sky-200" %>
 
                   <%= button_to "再発行",

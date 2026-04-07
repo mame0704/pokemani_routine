@@ -1,14 +1,13 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # Devise
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  # Associations
   has_many :children, dependent: :destroy
   has_many :routine_approvals, dependent: :destroy
 
-  # DBに子がいるかチェックし、いる場合は親とみなす
-  def parent?
-    children.exists?
-  end
+  # Role管理（親・子）
+  enum role: { parent: 0, child: 1 }
+
 end
