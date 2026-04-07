@@ -10,8 +10,10 @@ Rails.application.routes.draw do
     resources :children, only: [ :index, :create, :show, :destroy, :edit, :update ] do
       resource :pair_code, only: [ :update ]
 
-      resources :routines, only: [ :index, :new, :create, :edit, :update, :destroy ]
+      resources :routines, only: [ :index, :show, :new, :create, :edit, :update, :destroy ]
     end
+
+    resources :accounts, only: [ :index, :edit, :update]
 
     root "routine_approvals#new"
     resources :routine_executions, only: [] do

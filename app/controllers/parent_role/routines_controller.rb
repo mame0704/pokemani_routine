@@ -7,6 +7,10 @@ module ParentRole
       @children = current_user.children.order(:created_at)
     end
 
+    def show
+      @routine = @child.routines.find(params[:id])
+    end
+
     def new
       @routine = Routine.new
       @children = current_user.children.order(:id)
