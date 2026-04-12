@@ -1,99 +1,49 @@
-<div class="min-h-screen bg-white px-4 py-8 sm:px-6 lg:px-8">
-  <div class="mx-auto w-full max-w-3xl">
-
-    <div class="mb-6">
-      <h1 class="text-2xl font-bold text-black sm:text-3xl">
-        アカウント管理
-      </h1>
-      <p class="mt-2 text-sm text-gray-600">
-        こども用のログインIDを発行・再発行・削除できます
-      </p>
-    </div>
-
-    <% if notice.present? %>
-      <div class="mb-4 rounded-3xl border border-green-200 bg-green-50 p-4 text-sm text-green-700 shadow-sm">
-        <%= notice %>
-      </div>
-    <% end %>
-
-    <% if alert.present? %>
-      <div class="mb-4 rounded-3xl border border-red-200 bg-red-50 p-4 text-sm text-red-600 shadow-sm">
-        <%= alert %>
-      </div>
-    <% end %>
-
-    <!-- ペアID発行カード（青に変更） -->
-    <div class="mb-6 rounded-3xl border border-sky-100 bg-sky-50 p-6 shadow-sm sm:p-8">
-      <h2 class="text-lg font-semibold text-black">
-        子供アカウント作成
-      </h2>
-      <p class="mt-3 text-sm text-gray-600">
-        こどもログイン画面で入力するIDです。発行したIDをこどもに渡してください。
-      </p>
-
-      <div class="mt-5">
-        <%= button_to "アカウントを作成する",
-            parent_role_children_path,
-            method: :post,
-            class: "inline-flex w-full items-center justify-center rounded-2xl border border-yellow-200 bg-yellow-100 px-5 py-3 text-sm font-semibold text-black shadow-sm transition hover:bg-yellow-200" %>
-      </div>
-    </div>
-
-    <!-- 発行済みペアID一覧（緑に変更） -->
-    <div class="rounded-3xl border border-green-100 bg-green-50 p-6 shadow-sm sm:p-8">
-      <h2 class="text-lg font-semibold text-black">
-        子供一覧
-      </h2>
-
-      <% if @children.blank? %>
-        <div class="mt-4 rounded-3xl border border-green-100 bg-white p-5">
-          <p class="text-sm text-gray-600">
-            まだペアIDは発行されていません。
-          </p>
-        </div>
-      <% else %>
-        <div class="mt-4 space-y-4">
-          <% @children.each do |child| %>
-            <div class="rounded-3xl border border-green-100 bg-white p-5 shadow-sm">
-              <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-
-                <div>
-                  <div class="text-sm text-gray-500">こども</div>
-                  <div class="text-base font-semibold text-black">
-                    <%= child.name.presence || "（名称未設定）" %>
-                  </div>
-
-                  <div class="mt-3 text-sm text-gray-500">ペアID</div>
-                  <div class="text-xl font-bold tracking-wider text-black sm:text-2xl">
-                    <%= child.pair_code %>
-                  </div>
-                </div>
-
-                <div class="flex w-full flex-col gap-2 sm:w-auto sm:min-w-[160px]">
-                  <%= link_to "編集",
-                      edit_parent_role_child_path(child),
-                      class: "inline-flex w-full items-center justify-center rounded-2xl border border-sky-200 bg-sky-100 px-4 py-2 text-sm font-medium text-black shadow-sm transition hover:bg-sky-200" %>
-
-                  <%= button_to "再発行",
-                      parent_role_child_pair_code_path(child),
-                      method: :patch,
-                      data: { turbo_confirm: "再発行すると古いペアIDではログインできなくなります。続けますか？" },
-                      class: "inline-flex w-full items-center justify-center rounded-2xl border border-yellow-200 bg-yellow-100 px-4 py-2 text-sm font-medium text-black shadow-sm transition hover:bg-yellow-200" %>
-
-                  <%= button_to "削除",
-                      parent_role_child_path(child),
-                      method: :delete,
-                      data: { turbo_confirm: "このペアIDを削除します。関連データも消える可能性があります。続けますか？" },
-                      class: "inline-flex w-full items-center justify-center rounded-2xl border border-red-200 bg-white px-4 py-2 text-sm font-medium text-red-600 shadow-sm transition hover:bg-red-50" %>
-
-                </div>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-
-    </div>
-
+<div class="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6 lg:px-8 bg-white text-black">
+  <div class="mb-6">
+    <%= link_to "← ルーティン承認画面へ",
+      parent_role_root_path,
+      class: "inline-flex items-center rounded-2xl border border-yellow-200 bg-white px-4 py-2 text-sm font-medium text-black shadow-sm transition hover:bg-yellow-50" %>
   </div>
+
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-black sm:text-3xl">
+      子供一覧
+    </h1>
+    <p class="mt-2 text-sm text-gray-600">
+      子供を選択するとルーティン詳細へ進めます
+    </p>
+  </div>
+
+  <% if @children.any? %>
+    <div class="space-y-4">
+      <% @children.each do |child| %>
+        <%= link_to parent_role_child_routines_path(child), class: "block" do %>
+          <div class="rounded-3xl border border-green-100 bg-green-50 p-5 shadow-sm transition hover:shadow-md">
+            <div class="flex items-center justify-between">
+
+              <div>
+                <p class="text-lg font-semibold text-black">
+                  <%= child.name %>
+                </p>
+                <p class="mt-1 text-sm text-gray-600">
+                  登録日: <%= child.created_at.strftime("%Y/%m/%d") %>
+                </p>
+              </div>
+
+              <div class="text-sm text-gray-500">
+                →
+              </div>
+
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="rounded-3xl border border-sky-100 bg-sky-50 p-6 shadow-sm">
+      <p class="text-sm text-gray-700">
+        子供がまだ登録されていません。
+      </p>
+    </div>
+  <% end %>
 </div>

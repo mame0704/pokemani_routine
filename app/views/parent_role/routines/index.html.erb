@@ -1,49 +1,57 @@
 <div class="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6 lg:px-8 bg-white text-black">
   <div class="mb-6">
-    <%= link_to "← ルーティン承認画面へ",
-      parent_role_root_path,
+    <%= link_to "← ルーティン一覧画面へ",
+      parent_role_children_path,
       class: "inline-flex items-center rounded-2xl border border-yellow-200 bg-white px-4 py-2 text-sm font-medium text-black shadow-sm transition hover:bg-yellow-50" %>
   </div>
 
   <div class="mb-6">
     <h1 class="text-2xl font-bold text-black sm:text-3xl">
-      子供一覧
+      <%= @child.name %> のルーティン一覧
     </h1>
     <p class="mt-2 text-sm text-gray-600">
-      子供を選択するとルーティン詳細へ進めます
+      登録されているルーティンの確認と削除ができます
     </p>
   </div>
 
-  <% if @children.any? %>
+  <% if @child.routines.any? %>
     <div class="space-y-4">
-      <% @children.each do |child| %>
-        <%= link_to parent_role_child_routines_path(child), class: "block" do %>
-          <div class="rounded-3xl border border-green-100 bg-green-50 p-5 shadow-sm transition hover:shadow-md">
-            <div class="flex items-center justify-between">
+      <% @child.routines.each do |routine| %>
+        <div class="rounded-3xl border border-green-100 bg-green-50 p-5 shadow-sm transition hover:shadow-md">
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p class="text-lg font-semibold text-black">
+                <%= routine.title %>
+              </p>
+              <p class="mt-1 text-sm text-gray-600">
+                作成日: <%= routine.created_at.strftime("%Y/%m/%d") %>
+              </p>
+            </div>
 
-              <div>
-                <p class="text-lg font-semibold text-black">
-                  <%= child.name %>
-                </p>
-                <p class="mt-1 text-sm text-gray-600">
-                  登録日: <%= child.created_at.strftime("%Y/%m/%d") %>
-                </p>
-              </div>
-
-              <div class="text-sm text-gray-500">
-                →
-              </div>
-
+            <div class="flex justify-end">
+              <%= link_to "削除",
+                parent_role_child_routine_path(@child, routine),
+                data: {
+                  turbo_method: :delete,
+                  turbo_confirm: "このルーティンを削除しますか？"
+                },
+                class: "inline-flex items-center justify-center rounded-2xl border border-red-200 bg-white px-4 py-2 text-sm font-medium text-red-600 shadow-sm transition hover:bg-red-50" %>
             </div>
           </div>
-        <% end %>
+        </div>
       <% end %>
     </div>
   <% else %>
     <div class="rounded-3xl border border-sky-100 bg-sky-50 p-6 shadow-sm">
       <p class="text-sm text-gray-700">
-        子供がまだ登録されていません。
+        ルーティンがまだありません。
       </p>
     </div>
   <% end %>
+
+  <div class="mt-8">
+    <%= link_to "＋ 新しいルーティンを作成",
+      new_parent_role_child_routine_path(@child),
+      class: "inline-flex items-center justify-center rounded-2xl border border-yellow-200 bg-yellow-100 px-5 py-3 text-sm font-semibold text-black shadow-sm transition hover:bg-yellow-200" %>
+  </div>
 </div>

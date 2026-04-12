@@ -4,7 +4,7 @@ module ParentRole
     before_action :set_child
 
     def index
-      @children = current_user.children.order(:created_at)
+      @children = current_user.children.includes(:routines).order(:created_at)
     end
 
     def show
