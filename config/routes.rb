@@ -8,12 +8,13 @@ Rails.application.routes.draw do
 
   namespace :parent_role do
     resources :children, only: [ :index, :create, :show, :destroy, :edit, :update ] do
-      resource :pair_code, only: [ :update ]
 
       resources :routines, only: [ :index, :show, :new, :create, :edit, :update, :destroy ]
     end
 
-    resources :accounts, only: [ :index, :edit, :update]
+    resources :accounts, only: [ :index, :create, :edit, :update, :destroy ] do
+      resource :pair_code, only: [ :update ]
+    end
 
     root "routine_approvals#new"
     resources :routine_executions, only: [] do

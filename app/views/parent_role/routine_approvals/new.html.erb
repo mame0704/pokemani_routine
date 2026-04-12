@@ -5,7 +5,7 @@
   <div class="mb-6">
     <% if child_for_routines.present? %>
       <%= link_to "← 子供ルーティン一覧へ",
-          parent_role_child_routines_path(child_for_routines),
+          parent_role_children_path(child_for_routines),
           class: "inline-flex items-center rounded-2xl border border-yellow-200 bg-white px-4 py-2 text-sm font-medium text-black shadow-sm transition hover:bg-yellow-50" %>
     <% else %>
       <%= link_to "← 子どもを作成する",

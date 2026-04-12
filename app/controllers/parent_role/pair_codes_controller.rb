@@ -5,11 +5,11 @@ module ParentRole
     before_action :authenticate_user!
 
     def update
-      child = current_user.children.find(params[:child_id])
+      account = current_user.children.find(params[:account_id])
 
-      child.update!(pair_code: generate_unique_pair_code)
+      account.update!(pair_code: generate_unique_pair_code)
 
-      redirect_to parent_role_children_path, notice: "ペアIDを再発行しました"
+      redirect_to parent_role_accounts_path, notice: "ペアIDを再発行しました"
     end
 
     private
