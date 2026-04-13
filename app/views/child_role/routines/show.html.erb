@@ -34,11 +34,18 @@
       <% if @routine.items.present? %>
         <div class="mt-5 rounded-3xl border border-sky-100 bg-white p-4 shadow-sm">
           <p class="mb-2 text-sm font-bold text-black">項目</p>
-          <ul class="list-disc space-y-1 pl-5 text-sm text-black">
-            <% @routine.items.each do |item| %>
-              <li><%= item %></li>
+
+          <ul class="space-y-2 text-sm text-black">
+            <% @routine.items.each_with_index do |item, index| %>
+              <li class="flex items-center gap-2">
+                <input type="checkbox"
+                       class="routine-checkbox h-4 w-4"
+                       id="item_<%= index %>">
+                <label for="item_<%= index %>"><%= item %></label>
+              </li>
             <% end %>
           </ul>
+
         </div>
       <% end %>
 
@@ -63,8 +70,9 @@
                       local: true do |f| %>
 
           <%= f.submit "ルーティン実行",
+              id: "submit-button",
               class: "w-full rounded-2xl bg-yellow-100 px-5 py-3 text-sm font-bold text-black shadow-sm transition hover:bg-yellow-200 #{'cursor-not-allowed opacity-50' if executed_today}",
-              disabled: executed_today %>
+              disabled: true %>
 
         <% end %>
 
@@ -89,3 +97,36 @@
     </div>
   </div>
 </div>
+
+<!-- 🔽 JS制御 -->
+<script>
+  document.addEventListener("turbo:load", () => {
+    const checkboxes = document.querySelectorAll(".routine-checkbox");
+    const submitButton = document.getElementById("submit-button");
+
+    if (!submitButton) return;
+
+    const executedToday = <%= executed_today ? "true" : "false" %>;
+
+    function updateButtonState() {
+      if (executedToday) {
+        submitButton.disabled = true;
+        return;
+      }
+
+      if (checkboxes.length === 0) {
+        submitButton.disabled = false;
+        return;
+      }
+
+      const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+      submitButton.disabled = !allChecked;
+    }
+
+    checkboxes.forEach(cb => {
+      cb.addEventListener("change", updateButtonState);
+    });
+
+    updateButtonState();
+  });
+</script>

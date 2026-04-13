@@ -70,8 +70,8 @@
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const addButton = document.getElementById("add-item");
+document.addEventListener("turbo:load", () => {
+  const addButton = document.querySelector("#add-item");
   const container = document.getElementById("routine-items");
 
   if (!addButton || !container) return;
